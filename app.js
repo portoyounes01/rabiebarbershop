@@ -65,17 +65,51 @@ window.addEventListener('scroll', () => {
 window.addEventListener('resize', updateProgress);
 updateProgress();
 
-const heroArt = document.querySelector('.hero-art');
-heroArt.addEventListener('pointermove', event => {
-  if (motionPaused || event.pointerType !== 'mouse') return;
-  const box = heroArt.getBoundingClientRect();
-  heroArt.style.setProperty('--tilt-x', ((event.clientX - box.left) / box.width - .5) * 9 + 'deg');
-  heroArt.style.setProperty('--tilt-y', -((event.clientY - box.top) / box.height - .5) * 9 + 'deg');
+const looks = [...document.querySelectorAll('.look')];
+const lookDialog = document.querySelector('#look-dialog');
+const lookImage = lookDialog.querySelector('figure img');
+const lookTitle = lookDialog.querySelector('figcaption span');
+const lookCount = lookDialog.querySelector('figcaption small');
+let currentLook = 0;
+let lookReturnFocus = null;
+function showLook(index) {
+  currentLook = (index + looks.length) % looks.length;
+  const card = looks[currentLook];
+  const image = card.querySelector('img');
+  lookImage.src = image.src;
+  lookImage.alt = image.alt;
+  lookTitle.textContent = card.querySelector('b').textContent;
+  lookCount.textContent = String(currentLook + 1).padStart(2, '0') + ' / ' + String(looks.length).padStart(2, '0');
+}
+looks.forEach((card, index) => card.addEventListener('click', () => {
+  lookReturnFocus = card;
+  showLook(index);
+  lookDialog.showModal();
+}));
+lookDialog.querySelector('.look-close').addEventListener('click', () => lookDialog.close());
+lookDialog.querySelector('.look-prev').addEventListener('click', () => showLook(currentLook - 1));
+lookDialog.querySelector('.look-next').addEventListener('click', () => showLook(currentLook + 1));
+lookDialog.addEventListener('click', event => { if (event.target === lookDialog) lookDialog.close(); });
+lookDialog.addEventListener('close', () => { if (lookReturnFocus) lookReturnFocus.focus(); });
+document.addEventListener('keydown', event => {
+  if (!lookDialog.open) return;
+  if (event.key === 'ArrowLeft') showLook(currentLook - 1);
+  if (event.key === 'ArrowRight') showLook(currentLook + 1);
 });
-heroArt.addEventListener('pointerleave', () => {
-  heroArt.style.setProperty('--tilt-x', '0deg');
-  heroArt.style.setProperty('--tilt-y', '0deg');
-});
+if ('IntersectionObserver' in window) {
+  const lookObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add('is-visible');
+      lookObserver.unobserve(entry.target);
+    });
+  }, { threshold: .12 });
+  looks.forEach((card, index) => {
+    card.style.transitionDelay = Math.min(index % 4, 3) * 70 + 'ms';
+    card.classList.add('look-ready');
+    lookObserver.observe(card);
+  });
+}
 
 const dialog = document.querySelector('#booking-dialog');
 const serviceChoice = document.querySelector('#service-choice');
