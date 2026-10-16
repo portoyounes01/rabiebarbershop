@@ -29,3 +29,10 @@ test('the site clearly sells home visits and gathers location in the appointment
   assert.match(app, /area/i);
   assert.doesNotMatch(html, /Get in the chair|Let’s get you in the chair/);
 });
+
+test('the service location is all of Évora, Portugal', () => {
+  assert.match(html, /Évora, Portugal/);
+  assert.match(html, /all of Évora/i);
+  assert.match(app, /Évora/);
+  assert.doesNotMatch(html + app, /Luxembourg/i);
+});

@@ -83,7 +83,7 @@ const message = document.querySelector('#booking-message');
 const status = document.querySelector('#copy-status');
 let returnFocus = null;
 function draftMessage() {
-  message.value = 'Hi Rabie! I’d like to request a home visit for ' + serviceChoice.value.toLowerCase() + '. My area is [your area] and my preferred day/time is [your preferred day/time]. Could you let me know if you’re available and confirm the price and details? Thank you!';
+  message.value = 'Hi Rabie! I’d like to request a home visit in Évora for ' + serviceChoice.value.toLowerCase() + '. My area is [your neighborhood] and my preferred day/time is [your preferred day/time]. Could you confirm the price and details? Thank you!';
   status.textContent = 'No message is sent automatically.';
 }
 document.querySelectorAll('[data-book]').forEach(button => button.addEventListener('click', () => {

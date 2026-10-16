@@ -1,6 +1,6 @@
 # Rabie Barber Stare
 
-A responsive black-and-gold website for Rabie Barber Stare, focused on at-home barber visits in Luxembourg, with always-on animated branding, selected haircut photography, service selection, and an Instagram visit-request flow.
+A responsive black-and-gold website for Rabie Barber Stare, focused on at-home barber visits throughout Évora, Portugal, with always-on animated branding, selected haircut photography, service selection, and an Instagram visit-request flow.
 
 ## Preview locally
 
