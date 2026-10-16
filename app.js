@@ -1,39 +1,5 @@
 const root = document.documentElement;
-const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-const motionButtons = document.querySelectorAll('.motion-toggle');
-let motionPaused = reducedMotion.matches;
-let explicitMotion = false;
-try {
-  const savedMotion = localStorage.getItem('rbs-motion') || sessionStorage.getItem('rbs-motion');
-  if (savedMotion === 'paused' || savedMotion === 'enabled') {
-    motionPaused = savedMotion === 'paused';
-    explicitMotion = true;
-  }
-} catch {}
-function setMotion(paused) {
-  motionPaused = paused;
-  root.classList.toggle('motion-off', paused);
-  root.classList.toggle('motion-enabled', !paused);
-  motionButtons.forEach(button => {
-    button.setAttribute('aria-pressed', String(!paused));
-    button.setAttribute('aria-label', paused ? 'Enable animations' : 'Pause animations');
-    button.title = paused && reducedMotion.matches
-      ? 'Your browser requests reduced motion. Enable animations for this website.'
-      : 'Remember this animation setting for this website.';
-    button.querySelector('.motion-label').textContent = paused ? 'Enable animations' : 'Animations on';
-  });
-}
-setMotion(motionPaused);
-motionButtons.forEach(button => button.addEventListener('click', () => {
-  explicitMotion = true;
-  setMotion(!motionPaused);
-  const preference = motionPaused ? 'paused' : 'enabled';
-  try { localStorage.setItem('rbs-motion', preference); } catch {}
-  try { sessionStorage.setItem('rbs-motion', preference); } catch {}
-}));
-reducedMotion.addEventListener('change', event => {
-  if (!explicitMotion) setMotion(event.matches);
-});
+root.classList.add('motion-enabled');
 
 const menuButton = document.querySelector('.menu-toggle');
 const mobileNav = document.querySelector('#mobile-nav');
@@ -117,7 +83,7 @@ const message = document.querySelector('#booking-message');
 const status = document.querySelector('#copy-status');
 let returnFocus = null;
 function draftMessage() {
-  message.value = 'Hi Rabie! I’d like to ask about ' + serviceChoice.value.toLowerCase() + '. Could you let me know your price and next available appointments? Thank you!';
+  message.value = 'Hi Rabie! I’d like to request a home visit for ' + serviceChoice.value.toLowerCase() + '. My area is [your area] and my preferred day/time is [your preferred day/time]. Could you let me know if you’re available and confirm the price and details? Thank you!';
   status.textContent = 'No message is sent automatically.';
 }
 document.querySelectorAll('[data-book]').forEach(button => button.addEventListener('click', () => {

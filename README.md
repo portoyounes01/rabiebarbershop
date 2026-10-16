@@ -1,6 +1,6 @@
 # Rabie Barber Stare
 
-A responsive black-and-gold website for Rabie Barber Stare, with animated branding, service selection, an Instagram booking-message flow, and accessible motion controls.
+A responsive black-and-gold website for Rabie Barber Stare, focused on at-home barber visits in Luxembourg, with always-on animated branding, selected haircut photography, service selection, and an Instagram visit-request flow.
 
 ## Preview locally
 
@@ -14,5 +14,5 @@ Open [http://127.0.0.1:4173](http://127.0.0.1:4173).
 
 - `index.html` — page structure and content
 - `styles.css` — responsive design and animations
-- `app.js` — navigation, motion preferences, and booking dialog
+- `app.js` — navigation, always-on motion, and booking dialog
 - `rabie-barber-stare-logo.png` — brand artwork
